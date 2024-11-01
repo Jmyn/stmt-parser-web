@@ -1,0 +1,5 @@
+node_modules
+statements
+outputs
+.env
+.DS_Store
