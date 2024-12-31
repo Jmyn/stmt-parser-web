@@ -10,35 +10,23 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Home, Inbox, Calendar, Search, Settings } from "lucide-react";
+import { Home, Inbox } from "lucide-react";
 import { ModeToggle } from "../theme-provider/theme-toggle";
+import getConfig from "next/config";
 
+const { publicRuntimeConfig } = getConfig();
+const baseUrl = publicRuntimeConfig.baseUrl;
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
+    title: "Transactions",
+    url: `${baseUrl}/transactions`,
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
+    title: "Rules",
+    url: `${baseUrl}/transactions/rules`,
     icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
   },
 ];
 

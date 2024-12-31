@@ -1,11 +1,16 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-import { ConsolidatedTransaction } from "../../../stmt-parser/src/types";
 import { Button } from "@/components/ui/button";
+import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
+import { TransactionInfo } from "./types";
+import { EditSheet } from "./edit-sheet";
 
-export const columns: ColumnDef<ConsolidatedTransaction>[] = [
+export const columns: ColumnDef<TransactionInfo>[] = [
+  {
+    accessorKey: "hash",
+    header: "Hash",
+  },
   {
     accessorKey: "source",
     header: "Source",
@@ -32,7 +37,7 @@ export const columns: ColumnDef<ConsolidatedTransaction>[] = [
         row.getValue<Date>("transactionDate")
       ).toLocaleDateString();
       return (
-        <div className="text-right font-medium" suppressHydrationWarning>
+        <div className="text-left font-medium" suppressHydrationWarning>
           {date}
         </div>
       );
@@ -45,5 +50,27 @@ export const columns: ColumnDef<ConsolidatedTransaction>[] = [
   {
     accessorKey: "description",
     header: "Description",
+  },
+  {
+    accessorKey: "category",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Category
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    header: "Action",
+    id: "action",
+    cell: ({ row }) => {
+      const t = row.original;
+      return <EditSheet transaction={t} />;
+    },
   },
 ];

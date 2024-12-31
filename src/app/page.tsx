@@ -1,5 +1,5 @@
 import TransactionsPage from "./transactions/page";
 
-export default function Home() {
+export default function Transactions() {
   return <TransactionsPage />;
 }
