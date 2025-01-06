@@ -10,9 +10,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Home, Inbox } from "lucide-react";
-import { ModeToggle } from "../theme-provider/theme-toggle";
+import { GitGraph, Home, Inbox } from "lucide-react";
 import getConfig from "next/config";
+import { ModeToggle } from "../theme-provider/theme-toggle";
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = publicRuntimeConfig.baseUrl;
@@ -27,6 +27,11 @@ const items = [
     title: "Rules",
     url: `${baseUrl}/transactions/rules`,
     icon: Inbox,
+  },
+  {
+    title: "Stats",
+    url: `${baseUrl}/stats`,
+    icon: GitGraph,
   },
 ];
 

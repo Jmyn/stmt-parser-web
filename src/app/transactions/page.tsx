@@ -38,6 +38,7 @@ export default function TransactionsPage() {
               t.description
             ),
             ...t,
+            transactionDate: new Date(t.transactionDate),
           }));
           profile.transactionMap = profile.transactions.reduce((prev, curr) => {
             prev[curr.id] = curr;
