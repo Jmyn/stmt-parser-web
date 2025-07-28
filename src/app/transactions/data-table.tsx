@@ -90,8 +90,8 @@ export function DataTable<TData, TValue>({
         </Button>
       </div>
 
-      <div className="rounded-md border h-[calc(100vh-200px)] overflow-y-auto">
-        <Table>
+      <div className="rounded-md border h-[calc(100vh-200px)] overflow-y-auto overflow-x-auto">
+        <Table className="w-full table-fixed">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
