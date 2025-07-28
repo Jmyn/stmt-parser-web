@@ -73,9 +73,24 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            const currentFilter = table.getColumn("category")?.getFilterValue();
+            if (currentFilter === "no-category") {
+              table.getColumn("category")?.setFilterValue(undefined);
+            } else {
+              table.getColumn("category")?.setFilterValue("no-category");
+            }
+          }}
+          className="ml-auto"
+        >
+          Filter No Category
+        </Button>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-md border h-[calc(100vh-200px)] overflow-y-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -125,7 +140,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 py-4 sticky bottom-0 bg-white dark:bg-gray-950">
         <div className="flex-1 text-sm text-muted-foreground">
           Page {table.getState().pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}

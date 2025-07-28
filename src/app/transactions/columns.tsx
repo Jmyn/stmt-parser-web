@@ -64,6 +64,13 @@ export const columns: ColumnDef<TransactionInfo>[] = [
         </Button>
       );
     },
+    filterFn: (row, columnId, filterValue) => {
+      if (filterValue === "no-category") {
+        const category = row.getValue(columnId);
+        return !category || (typeof category === 'string' && category.trim() === '');
+      }
+      return true;
+    },
   },
   {
     header: "Action",
