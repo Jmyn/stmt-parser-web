@@ -28,7 +28,7 @@ export default function TransactionsPage() {
           const summary = JSON.parse(
             reader.result
           ) as ConsolidatedTransactionSummary;
-          profile.transactions = summary.transactions.map((t, i) => ({
+          let newTransactions: TransactionInfo[] = summary.transactions.map((t, i) => ({
             id: i,
             hash: generateUUID(
               t.source,
@@ -40,37 +40,51 @@ export default function TransactionsPage() {
             ...t,
             transactionDate: new Date(t.transactionDate),
           }));
-          profile.transactionMap = profile.transactions.reduce((prev, curr) => {
+
+          const newTransactionMap: Record<number, TransactionInfo> = newTransactions.reduce((prev, curr) => {
             prev[curr.id] = curr;
             return prev;
           }, {} as Record<number, TransactionInfo>);
 
           const categories = new Set<string>();
-
-          const hashRules = profile.categorisationRules.filter((r) =>
+          const allRules = [...profile.categorisationRules];
+          // Separate hash rules to process them last
+          const hashRules = allRules.filter((r) =>
             r.operations.some((o) => o.targetField === "hash")
           );
-          for (const rule of profile.categorisationRules) {
-            categories.add(rule.category);
-            for (const trx of profile.transactions) {
-              if (processRule(trx, rule)) {
-                trx.category = rule.category;
+          const otherRules = allRules.filter((r) =>
+            !r.operations.some((o) => o.targetField === "hash")
+          );
+
+          // Apply other rules first
+          newTransactions = newTransactions.map((trx) => {
+            let updatedTrx = { ...trx };
+            for (const rule of otherRules) {
+              categories.add(rule.category);
+              if (processRule(updatedTrx, rule)) {
+                updatedTrx = { ...updatedTrx, category: rule.category };
               }
             }
-          }
-          // process hash rules last
-          for (const rule of hashRules) {
-            categories.add(rule.category);
-            for (const trx of profile.transactions) {
-              if (processRule(trx, rule)) {
-                trx.category = rule.category;
+            return updatedTrx;
+          });
+
+          // Apply hash rules last
+          newTransactions = newTransactions.map((trx) => {
+            let updatedTrx = { ...trx };
+            for (const rule of hashRules) {
+              categories.add(rule.category);
+              if (processRule(updatedTrx, rule)) {
+                updatedTrx = { ...updatedTrx, category: rule.category };
               }
             }
-          }
+            return updatedTrx;
+          });
+
           const newProfile = {
             ...profile,
             categories: Array.from(categories),
-            transactions: [...profile.transactions],
+            transactions: newTransactions,
+            transactionMap: newTransactionMap,
           };
           setProfile(newProfile);
           saveProfile(newProfile);

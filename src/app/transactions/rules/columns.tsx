@@ -2,10 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { CategorisationRule } from "../types";
-import { Button } from "@/components/ui/button";
-import { Icon, MinusIcon } from "lucide-react";
-import { useContext } from "react";
-import { ProfileContext } from "@/app/context/profile.context";
+import { DeleteRuleButton } from "./delete-rule-button";
 
 export const ruleColumns: ColumnDef<CategorisationRule>[] = [
   {
@@ -38,23 +35,7 @@ export const ruleColumns: ColumnDef<CategorisationRule>[] = [
     header: "Action",
     id: "action",
     cell: ({ row }) => {
-      const { id } = row.original;
-      const { profile, setProfile, saveProfile } = useContext(ProfileContext);
-      return (
-        <Button
-          onClick={() => {
-            profile.categorisationRules.splice(id, 1);
-            const newProfile = {
-              ...profile,
-              categorisationRules: [...profile.categorisationRules],
-            };
-            setProfile(newProfile);
-            saveProfile(newProfile);
-          }}
-        >
-          <MinusIcon></MinusIcon>
-        </Button>
-      );
+      return <DeleteRuleButton rule={row.original} />;
     },
   },
 ];

@@ -41,16 +41,15 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
       localStorage.setItem(LOCAL_STORAGE_PROFILE_KEY, JSON.stringify(profile));
     }
   };
-  let loadedProfile = defaultProfile;
-  if (typeof window !== "undefined") {
-    const loadedProfileStr =
-      localStorage.getItem(LOCAL_STORAGE_PROFILE_KEY) ?? "";
-    loadedProfile = loadedProfileStr
-      ? (JSON.parse(loadedProfileStr) as TransactionsProfile)
-      : defaultProfile;
-  }
-
   React.useEffect(() => {
+    let loadedProfile = defaultProfile;
+    if (typeof window !== "undefined") {
+      const loadedProfileStr =
+        localStorage.getItem(LOCAL_STORAGE_PROFILE_KEY) ?? "";
+      loadedProfile = loadedProfileStr
+        ? (JSON.parse(loadedProfileStr) as TransactionsProfile)
+        : defaultProfile;
+    }
     void (async () => {
       try {
         setProfile(loadedProfile);

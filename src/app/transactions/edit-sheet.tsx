@@ -32,7 +32,7 @@ export function EditSheet({ transaction }: EditSheetProps) {
             <SheetHeader>
               <SheetTitle>Categorise Transaction</SheetTitle>
               <SheetDescription>
-                Add rule for categorisation here. Click save when you're done.
+                Add rule for categorisation here. Click save when you&#39;re done.
               </SheetDescription>
             </SheetHeader>
             <div className="grid gap-5 py-5">

@@ -18,17 +18,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ControllerRenderProps } from "react-hook-form";
 import { ProfileContext } from "@/app/context/profile.context";
 import { useRef } from "react";
 
 interface RuleComboboxProps {
-  field: ControllerRenderProps;
+  value: string;
+  onChange: (value: string) => void;
 }
 
-export function RuleCombobox({ field }: RuleComboboxProps) {
+export function RuleCombobox({ value, onChange }: RuleComboboxProps) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const { profile, setProfile, saveProfile } = React.useContext(ProfileContext);
   const categoriesSelection = profile.categories.map((c) => ({
@@ -67,8 +66,7 @@ export function RuleCombobox({ field }: RuleComboboxProps) {
                     profile.categories.push(input);
                     setProfile(profile);
                     saveProfile(profile);
-                    setValue(input);
-                    field.onChange(input);
+                    onChange(input);
                     setOpen(false);
                   }
                 }}
@@ -83,8 +81,7 @@ export function RuleCombobox({ field }: RuleComboboxProps) {
                   value={category.value}
                   onSelect={(currentValue) => {
                     const newVal = currentValue === value ? "" : currentValue;
-                    setValue(newVal);
-                    field.onChange(newVal);
+                    onChange(newVal);
                     setOpen(false);
                   }}
                 >

@@ -10,7 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { GitGraph, Home, Inbox } from "lucide-react";
+import { GitGraph, Home, Inbox, User } from "lucide-react";
 import getConfig from "next/config";
 import { ModeToggle } from "../theme-provider/theme-toggle";
 
@@ -32,6 +32,11 @@ const items = [
     title: "Stats",
     url: `${baseUrl}/stats`,
     icon: GitGraph,
+  },
+  {
+    title: "Profile",
+    url: `${baseUrl}/profile`,
+    icon: User,
   },
 ];
 

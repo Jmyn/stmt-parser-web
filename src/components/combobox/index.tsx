@@ -18,16 +18,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ControllerRenderProps } from "react-hook-form";
+
 
 interface ComboboxProps {
   selections: { value: string; label: string }[];
-  field?: ControllerRenderProps;
+  value: string;
+  onChange: (value: string) => void;
 }
 
-export function Combobox({ selections, field }: ComboboxProps) {
+export function Combobox({ selections, value, onChange }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(field?.value);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -56,8 +56,7 @@ export function Combobox({ selections, field }: ComboboxProps) {
                   value={selection.value}
                   onSelect={(currentValue) => {
                     const newVal = currentValue === value ? "" : currentValue;
-                    setValue(newVal);
-                    field?.onChange(newVal);
+                    onChange(newVal);
                     setOpen(false);
                   }}
                 >

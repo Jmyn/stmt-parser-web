@@ -86,7 +86,7 @@ export function RuleForm() {
             <FormItem>
               <FormLabel>Category</FormLabel>
               <FormControl>
-                <RuleCombobox field={field} />
+                <RuleCombobox value={field.value} onChange={field.onChange} />
               </FormControl>
               <FormDescription>
                 All transactions that match rule will be mapped to this category
@@ -114,7 +114,8 @@ export function RuleForm() {
                 render={({ field }) => (
                   <FormControl>
                     <Combobox
-                      field={field}
+                      value={field.value}
+                      onChange={field.onChange}
                       selections={targetFieldSelections}
                     />
                   </FormControl>
@@ -125,7 +126,11 @@ export function RuleForm() {
                 name={`operations.${index}.op`}
                 render={({ field }) => (
                   <FormControl>
-                    <Combobox field={field} selections={operationSelections} />
+                    <Combobox
+                      value={field.value}
+                      onChange={field.onChange}
+                      selections={operationSelections}
+                    />
                   </FormControl>
                 )}
               />
@@ -172,6 +177,22 @@ export function RuleForm() {
             }}
           >
             Add Operation
+          </Button>
+          <Button
+            type="button"
+            onClick={() => {
+              const operations = form.getValues("operations");
+              operations.push({
+                id: operations.length,
+                value: "",
+                targetField: "hash",
+                op: "contains",
+              });
+              form.setValue("operations", [...operations]);
+              form.trigger();
+            }}
+          >
+            Add By Hash
           </Button>
           <FormMessage />
         </FormItem>

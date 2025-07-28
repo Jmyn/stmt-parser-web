@@ -102,18 +102,18 @@ export default function StatsPage() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {Object.entries(categoryVisibility).map(([c, v]) => {
+            {Object.entries(categoryVisibility).map(([categoryName, v]) => {
               return (
                 <DropdownMenuCheckboxItem
-                  key={c}
+                  key={categoryName}
                   className="capitalize"
                   checked={v}
                   onCheckedChange={(value) => {
-                    categoryVisibility[c] = value;
+                    categoryVisibility[categoryName] = value;
                     setCategoryVisibility({ ...categoryVisibility });
                   }}
                 >
-                  {c}
+                  {categoryName}
                 </DropdownMenuCheckboxItem>
               );
             })}
@@ -124,7 +124,7 @@ export default function StatsPage() {
         <StackBarChart
           dataset={dataset}
           categories={Object.entries(categoryVisibility)
-            .filter(([c, v]) => v)
+            .filter(([, v]) => v)
             .map(([c]) => c)}
         />
       </div>
